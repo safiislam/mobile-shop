@@ -1,40 +1,35 @@
+import { useState } from "react";
+import axios from "axios";
 import useGetProducts from "../../Hooks/getProducts";
-
+import EditProductModal from "./EditProductModal"; // Import the modal component
 
 const ManageProduct = () => {
-    const { products: product = [] } = useGetProducts()
-    console.log(product);
-    // Sample product data
-    const products = [
-        {
-            id: 1,
-            name: "Product 1",
-            price: 100,
-            quantity: 50,
-            imageUrl: "https://via.placeholder.com/150",
-            rating: 4.5,
-            shortDescription: "This is Product 1",
-        },
-        {
-            id: 2,
-            name: "Product 2",
-            price: 200,
-            quantity: 30,
-            imageUrl: "https://via.placeholder.com/150",
-            rating: 4.2,
-            shortDescription: "This is Product 2",
-        },
-    ];
+    const { products = [], refetch } = useGetProducts();
 
-    const handleEdit = (id) => {
-        console.log(`Edit product with ID: ${id}`);
-        // Add logic to edit product
+    // State for modal visibility and product data
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const handleEdit = (product) => {
+        setSelectedProduct(product); // Set the selected product
+        setIsModalOpen(true); // Open the modal
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            console.log(`Delete product with ID: ${id}`);
-            // Add logic to delete product
+            try {
+                const res = await axios.delete(
+                    `${import.meta.env.VITE_SERVER_URL}/product/${id}`,
+                    {
+                        headers: { Authorization: localStorage.getItem("accessToken") },
+                    }
+                );
+                if (res.data) {
+                    refetch(); // Refresh the product list
+                }
+            } catch (error) {
+                console.error("Error deleting product:", error);
+            }
         }
     };
 
@@ -56,7 +51,7 @@ const ManageProduct = () => {
                 <tbody>
                     {products.map((product, index) => (
                         <tr
-                            key={product.id}
+                            key={product._id}
                             className="border-b border-gray-700 hover:bg-gray-800"
                         >
                             <td className="p-3">{index + 1}</td>
@@ -66,20 +61,20 @@ const ManageProduct = () => {
                             <td className="p-3">{product.rating}</td>
                             <td className="p-3">
                                 <img
-                                    src={product.imageUrl}
+                                    src={product.image}
                                     alt={product.name}
                                     className="w-16 h-16 object-cover rounded-md"
                                 />
                             </td>
                             <td className="p-3">
                                 <button
-                                    onClick={() => handleEdit(product.id)}
+                                    onClick={() => handleEdit(product)}
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-700"
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(product.id)}
+                                    onClick={() => handleDelete(product._id)}
                                     className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
                                 >
                                     Delete
@@ -89,6 +84,16 @@ const ManageProduct = () => {
                     ))}
                 </tbody>
             </table>
+
+            {/* Edit Product Modal */}
+            {isModalOpen && (
+                <EditProductModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    product={selectedProduct}
+                    refetch={refetch}
+                />
+            )}
         </div>
     );
 };

@@ -1,32 +1,12 @@
+import { Link } from "react-router-dom";
+import useGetProducts from "../../Hooks/getProducts";
 
 
 const FeaturedProducts = () => {
-    const products = [
-        {
-            id: 1,
-            title: "iPhone 14 Pro Max",
-            price: "$1199",
-            image: "https://via.placeholder.com/300x300",
-        },
-        {
-            id: 2,
-            title: "Samsung Galaxy S23 Ultra",
-            price: "$999",
-            image: "https://via.placeholder.com/300x300",
-        },
-        {
-            id: 3,
-            title: "Google Pixel 8 Pro",
-            price: "$899",
-            image: "https://via.placeholder.com/300x300",
-        },
-        {
-            id: 4,
-            title: "OnePlus 12",
-            price: "$799",
-            image: "https://via.placeholder.com/300x300",
-        },
-    ];
+
+    const { products: p } = useGetProducts()
+    const products = p.slice(0, 5)
+    console.log(products);
 
     return (
         <section className="bg-gray-50 py-16">
@@ -37,22 +17,22 @@ const FeaturedProducts = () => {
                 <div className="flex flex-col gap-8 lg:flex-row lg:flex-wrap justify-center">
                     {products.map((product) => (
                         <div
-                            key={product.id}
+                            key={product._id}
                             className="bg-white rounded-lg shadow-md overflow-hidden w-full sm:w-1/2 lg:w-1/4 transition hover:shadow-lg"
                         >
                             <img
                                 src={product.image}
-                                alt={product.title}
+                                alt={product.name}
                                 className="w-full h-64 object-cover"
                             />
                             <div className="p-4 flex flex-col items-center">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                                    {product.title}
+                                    {product.name}
                                 </h3>
                                 <p className="text-blue-500 font-bold text-xl">{product.price}</p>
-                                <button className="mt-4 w-full px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400 transition">
+                                <Link to={`/product-details/${product._id}`} className="mt-4 w-full text-center px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400 transition">
                                     View Details
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     ))}

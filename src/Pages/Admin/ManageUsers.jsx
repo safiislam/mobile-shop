@@ -1,30 +1,35 @@
-import { useState } from "react";
+import useGetUsers from "../../Hooks/useGetUsers";
+import axios from "axios";
 
 const ManageUsers = () => {
-    // Sample user data
-    const [users, setUsers] = useState([
-        { id: 1, email: "user1@example.com", role: "User" },
-        { id: 2, email: "admin@example.com", role: "Admin" },
-        { id: 3, email: "user2@example.com", role: "User" },
-    ]);
+    const { users, refetch } = useGetUsers()
 
-    const roles = ["User", "Admin", "Moderator"]; // List of roles
 
-    const handleRoleChange = (id, newRole) => {
-        const updatedUsers = users.map((user) =>
-            user.id === id ? { ...user, role: newRole } : user
-        );
-        setUsers(updatedUsers);
-        console.log(`Role updated for User ID: ${id} to ${newRole}`);
-        // Implement backend role update logic here
+    const roles = ["User", "Admin", "Seller"]; // List of roles
+
+    const handleRoleChange = async (id, newRole) => {
+
+        const data = { role: newRole }
+        const res = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/role-change/${id}`, data,
+            {
+                headers: { Authorization: localStorage.getItem("accessToken") },
+            }
+        )
+        if (res) {
+            refetch()
+        }
     };
 
-    const handleDeleteUser = (id) => {
+    const handleDeleteUser = async (id) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            const updatedUsers = users.filter((user) => user.id !== id);
-            setUsers(updatedUsers);
-            console.log(`User with ID: ${id} deleted`);
-            // Implement backend delete logic here
+            const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/user/${id}`,
+                {
+                    headers: { Authorization: localStorage.getItem("accessToken") },
+                }
+            )
+            if (res) {
+                refetch()
+            }
         }
     };
 
@@ -41,9 +46,9 @@ const ManageUsers = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user, index) => (
+                    {users?.map((user, index) => (
                         <tr
-                            key={user.id}
+                            key={user._id}
                             className="border-b border-gray-700 hover:bg-gray-800"
                         >
                             <td className="p-3">{index + 1}</td>
@@ -51,10 +56,10 @@ const ManageUsers = () => {
                             <td className="p-3">
                                 {user.role}
                             </td>
-                            <td className="p-3">
+                            <td className="p-3 space-x-6">
                                 <select
-                                    value={user.role}
-                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                    defaultValue={user.role}
+                                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
                                     className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring focus:ring-indigo-500"
                                 >
                                     {roles.map((role) => (
@@ -64,7 +69,7 @@ const ManageUsers = () => {
                                     ))}
                                 </select>
                                 <button
-                                    onClick={() => handleDeleteUser(user.id)}
+                                    onClick={() => handleDeleteUser(user._id)}
                                     className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
                                 >
                                     Delete

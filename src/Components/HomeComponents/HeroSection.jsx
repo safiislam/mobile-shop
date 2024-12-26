@@ -32,7 +32,7 @@ const HeroSection = () => {
                 <div className="lg:w-1/2 flex justify-center">
                     <div className="relative">
                         <img
-                            src="https://via.placeholder.com/450x550"
+                            src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                             alt="Latest Mobile"
                             className="rounded-lg shadow-lg"
                         />

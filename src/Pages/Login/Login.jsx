@@ -76,7 +76,9 @@ const Login = () => {
             </label>
             <input
               id="email"
+              defaultValue={"safi1@gmail.com "}
               {...register("email", {
+
                 required: "Email is required",
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
@@ -95,25 +97,27 @@ const Login = () => {
 
           {/* Password Field */}
           <div className="mb-6 relative">
+
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">
               Password
             </label>
             <input
               id="password"
+              defaultValue={'123456@@1F'}
               {...register("password", {
                 required: "Password is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters",
                 },
-                validate: {
-                  hasUpperCase: (value) =>
-                    /[A-Z]/.test(value) || "Must include an uppercase letter",
-                  hasNumber: (value) =>
-                    /[0-9]/.test(value) || "Must include a number",
-                  hasSpecialChar: (value) =>
-                    /[@!#$%^&*]/.test(value) || "Must include a special character",
-                },
+                // validate: {
+                //   hasUpperCase: (value) =>
+                //     /[A-Z]/.test(value) || "Must include an uppercase letter",
+                //   hasNumber: (value) =>
+                //     /[0-9]/.test(value) || "Must include a number",
+                //   hasSpecialChar: (value) =>
+                //     /[@!#$%^&*]/.test(value) || "Must include a special character",
+                // },
               })}
               type={showPassword ? "text" : "password"}
               className={`w-full mt-1 px-4 py-2 border rounded-lg ${errors.password ? "border-red-500" : "border-gray-300"

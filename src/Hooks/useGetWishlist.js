@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useGetProducts = (filters) => {
+const useGetWishlist = () => {
   const fetchProducts = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/product`,
+      `${import.meta.env.VITE_SERVER_URL}/wishlist`,
       {
-        params: filters, // Pass the filters directly to the params
-
         headers: { Authorization: localStorage.getItem("accessToken") },
       }
     );
@@ -15,18 +13,18 @@ const useGetProducts = (filters) => {
   };
 
   const {
-    data: products,
+    data: wishlist,
     isLoading,
     isError,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["products", filters],
+    queryKey: ["wishlist"],
     queryFn: fetchProducts,
     keepPreviousData: true, // Optional: Keeps the previous data while refetching
   });
 
-  return { products, isLoading, isError, error, refetch };
+  return { wishlist, isLoading, isError, error, refetch };
 };
 
-export default useGetProducts;
+export default useGetWishlist;

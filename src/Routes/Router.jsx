@@ -10,6 +10,11 @@ import ManageUsers from "../Pages/Admin/ManageUsers";
 import Contact from "../Pages/Contact/Contact";
 import About from "../Pages/About/About";
 import Product from "../Pages/Product/Product";
+import ProductDetails from "../Pages/Product/ProductDetails";
+import PrivetRoutes from './PrivetRoutes';
+import SellerRoutes from "./SellerRoutes";
+import AdminRoutes from "./AdminRoutes";
+import UserWishlist from "../Pages/UserWishlist/UserWishlist";
 
 
 export const router = createBrowserRouter([
@@ -30,6 +35,10 @@ export const router = createBrowserRouter([
                 element: <Product />
             },
             {
+                path: '/product-details/:id',
+                element: <ProductDetails />
+            },
+            {
                 path: '/about',
                 element: <About />
             }
@@ -37,19 +46,23 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <DashboardLayout />,
+        element: <PrivetRoutes><DashboardLayout /></PrivetRoutes>,
         children: [
             {
+                path: 'wishlist',
+                element: <UserWishlist />
+            },
+            {
                 path: 'add-product',
-                element: <AddProduct />
+                element: <SellerRoutes ><AddProduct /></SellerRoutes>
             },
             {
                 path: 'manage-product',
-                element: <ManageProduct />
+                element: <SellerRoutes><ManageProduct /></SellerRoutes>
             },
             {
                 path: 'manage-users',
-                element: <ManageUsers />
+                element: <AdminRoutes><ManageUsers /></AdminRoutes>
             }
         ]
     },

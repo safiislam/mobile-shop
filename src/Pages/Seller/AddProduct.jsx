@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { cloudinaryUpload } from "../../utils/uploadImageToCloudinary";
 import axios from "axios";
+import { useState } from "react";
 
 
 
@@ -15,13 +16,14 @@ const AddProduct = () => {
         reset,
         formState: { errors },
     } = useForm();
+    const [loading, setLoading] = useState(false)
 
 
 
     const onSubmit = async (data) => {
         try {
             console.log("Submitted Data:", data);
-
+            setLoading(true)
             // Upload image to Cloudinary
             const imageUploadResult = await cloudinaryUpload(data.image[0]);
             if (imageUploadResult?.secure_url) {
@@ -42,7 +44,9 @@ const AddProduct = () => {
             if (res.data) {
                 console.log("Product added successfully:", res.data);
                 reset(); // Reset the form on success
+                setLoading(false)
             } else {
+                setLoading(false)
                 throw new Error("Failed to add the product.");
             }
         } catch (error) {
@@ -193,6 +197,7 @@ const AddProduct = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
+                    disabled={loading}
                     className="w-full p-3 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition"
                 >
                     Add Product
