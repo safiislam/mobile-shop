@@ -1,6 +1,8 @@
+import useDocumentTitle from "../../Hooks/useDocumentTitle";
 
 
 const About = () => {
+    useDocumentTitle("About|Shop")
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
             {/* Header */}

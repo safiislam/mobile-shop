@@ -59,9 +59,9 @@ const ProductCard = ({ product }) => {
                 <img
                     src={image}
                     alt={name}
-                    className="h-64 w-full object-cover"
+                    className="h-64 z-0 w-full object-cover"
                 />
-                <span className="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">
+                <span className="absolute z-0 top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">
                     {category}
                 </span>
             </div>

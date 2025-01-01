@@ -28,7 +28,7 @@ const Dropdown = () => {
 
     return (
         <div className="bg-gray-200 flex justify-center items-center dark:bg-gray-500">
-            <div className="bg-white dark:bg-gray-800 w-64 shadow flex justify-center items-center relative">
+            <div className="bg-white dark:bg-gray-800 w-36 lg:w-64 shadow flex justify-center items-center relative">
                 <div
                     onClick={() => setOpen(!open)}
                     className={`relative border-b-4 border-transparent py-3 cursor-pointer ${open ? "border-indigo-700 transform transition duration-300" : ""
@@ -48,7 +48,7 @@ const Dropdown = () => {
                             }
 
                         </div>
-                        <div className="font-semibold dark:text-white text-gray-900 text-lg">
+                        <div className="font-semibold dark:text-white hidden md:inline-block text-gray-900 text-lg">
                             <div>{user.displayName}</div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ const Dropdown = () => {
                     {/* Dropdown Menu */}
                     {open && (
                         <div
-                            className="absolute w-60 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5 z-10"
+                            className="absolute w-60 -ms-36 md:ms-0  px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5 z-10"
                             onClick={(e) => e.stopPropagation()} // Prevents dropdown from closing when clicking inside
                         >
                             <ul className="space-y-3 dark:text-white">

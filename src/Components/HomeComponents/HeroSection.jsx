@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
     return (
-        <section className="relative bg-gray-900 text-white h-[600px] -z-10">
+        <section className="relative bg-gray-900 text-white md:h-screen -z-10 py-8">
             <div className="container mx-auto px-6 lg:px-12 h-full flex flex-col-reverse lg:flex-row items-center gap-12">
                 {/* Left Content */}
                 <div className="lg:w-1/2">
@@ -13,12 +14,12 @@ const HeroSection = () => {
                         Exclusive discounts and fast delivery await you!
                     </p>
                     <div className="mt-6 flex gap-4">
-                        <a
-                            href="#shop"
-                            className="px-6 py-3 bg-blue-500 hover:bg-blue-400 font-semibold rounded-lg transition"
+                        <Link
+                            to="/product"
+                            className="px-6 py-3 bg-blue-500 hover:bg-blue-400 font-semibold rounded-lg transition z-20"
                         >
                             Explore Phones
-                        </a>
+                        </Link>
                         <a
                             href="#learn-more"
                             className="px-6 py-3 bg-transparent border border-blue-500 hover:bg-blue-500 hover:text-white font-semibold rounded-lg transition"

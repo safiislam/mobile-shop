@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { FaUser, FaHeart, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import logo from '../assets/Screenshot_32.png';
 import Dropdown from './Dropdown';
 import getAuth from '../Hooks/getAuth';
 
@@ -11,11 +12,11 @@ const navLinks = [
     { title: 'Contact', url: '/contact' }
 ];
 
-const iconList = [
-    // { icon: <FaUser />, href: '/login' },
-    { icon: <FaHeart /> },
-    { icon: <FaShoppingCart /> },
-];
+// const iconList = [
+//     // { icon: <FaUser />, href: '/login' },
+//     { icon: <FaHeart /> },
+//     { icon: <FaShoppingCart /> },
+// ];
 
 const bgColor = 'bg-gray-800';
 const modalColor = 'bg-gray-900';
@@ -48,12 +49,12 @@ const Navbar = () => {
         <>
             {!isMobile ? (
                 // Laptop Navbar Code Here
-                <nav className={` ${bgColor}`}>
+                <nav className={` ${bgColor} `}>
                     <div className="flex justify-between mx-auto items-center py-4 px-24">
-                        <div className="text-white font-bold text-xl">Logo</div>
-                        <ul className="flex gap-8 md:gap-16 items-center justify-center text-center cursor-pointer">
+                        <div className="text-white font-bold text-xl"><Link to={'/'}> <img className='size-16 rounded-full' src={logo} alt="" /> </Link></div>
+                        <ul className="flex  gap-8 md:gap-16 items-center justify-center text-center cursor-pointer">
                             {navLinks.map((link, index) => (
-                                <Link to={link.url} key={index} className="text-white text-sm">{link.title}</Link>
+                                <Link to={link.url} key={index} className="text-white text-base">{link.title}</Link>
                             ))}
                         </ul>
                         <ul className="flex text-white gap-6 items-center cursor-pointer">
@@ -69,13 +70,19 @@ const Navbar = () => {
                 </nav>
             ) : (
                 // Mobile Navbar Code Here
-                <nav className={`h-screen ${bgColor} py-4 px-4`}>
+                <nav className={`h-fit ${bgColor} py-4 px-4`}>
                     <div className="mx-auto flex justify-between items-center ">
-                        <div className="text-white font-bold text-xl">Logo</div>
+                        <div className="text-white font-bold text-xl">
+                            <Link to={'/'}> <img className='size-16 rounded-full' src={logo} alt="" /> </Link>
+                        </div>
                         <div className="flex justify-end items-center gap-6 text-white cursor-pointer">
-                            {iconList.map((item, index) => (
-                                <div key={index} onClick={index === iconList.length - 1 ? handleBarsIconClick : null}>{item.icon}</div>
-                            ))}
+                            <ul className="flex text-white gap-6 items-center cursor-pointer">
+
+                                {
+                                    user ? <Dropdown /> : <Link to={'/login'}> <FaUser /></Link>
+                                }
+
+                            </ul>
                             <FaBars onClick={handleBarsIconClick} className="text-white cursor-pointer" />
                         </div>
                     </div>
@@ -90,7 +97,7 @@ const Navbar = () => {
                             <div className="relative bg-gray-900 w-full">
                                 <div className="flex flex-col gap-8 items-center justify-center h-full">
                                     {navLinks.map((link, index) => (
-                                        <span key={index} className="text-white font-light text-2xl cursor-pointer">{link.title}</span>
+                                        <Link to={link.url} key={index} className="text-white text-base">{link.title}</Link>
                                     ))}
                                 </div>
                             </div>

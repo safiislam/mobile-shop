@@ -1,7 +1,9 @@
 
 import { useForm } from "react-hook-form";
+import useDocumentTitle from "../../Hooks/useDocumentTitle";
 
 const Contact = () => {
+    useDocumentTitle("Contact|Shop")
     const {
         register,
         handleSubmit,

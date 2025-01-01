@@ -4,8 +4,8 @@ import useGetProducts from "../../Hooks/getProducts";
 
 const FeaturedProducts = () => {
 
-    const { products: p } = useGetProducts()
-    const products = p.slice(0, 5)
+    const { products: p = [] } = useGetProducts()
+    const products = p?.slice(0, 5)
     console.log(products);
 
     return (

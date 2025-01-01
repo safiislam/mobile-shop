@@ -2,8 +2,11 @@ import { useState } from "react";
 import ProductCard from "../../Components/ProductCard";
 import useGetProducts from "../../Hooks/getProducts";
 import { brands, categories } from "../Seller/AddProduct";
+import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import Loading from './../../Components/Loading';
 
 const Product = () => {
+    useDocumentTitle("Product|Shop")
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedBrand, setSelectedBrand] = useState("");
@@ -62,7 +65,7 @@ const Product = () => {
 
             {/* Products */}
             <div>
-                {isLoading && <p>Loading products...</p>}
+                {isLoading && <Loading />}
                 {isError && <p>Error: {error.message}</p>}
                 {!isLoading && !isError && products?.length === 0 && <p>No products found.</p>}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
